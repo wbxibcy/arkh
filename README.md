@@ -1,4 +1,4 @@
 # arkh
-This is a xx's project.\n
+This is a xx's project. 
 ^.^
 

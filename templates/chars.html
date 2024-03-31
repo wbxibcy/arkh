@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block chars_active %}active{% endblock %}
+{% block caption %}字表{% endblock %}
+{% block content %}
+<div>
+  <h1>荆音韵汇字表</h1>
+  <p>字表依原文次序排列</p>
+  <div>
+    <h3>跳至韵部</h3>
+    <ul class="entries" id="yunbu">
+      {% for yun in yunbu %}
+        <li class="entry">{{yun[0]}}<a href="{{ url_for('chars', page=yun[2]/10+1) }}">{{yun[1]}}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="row">
+    <div class="span10">
+        <table class="table table-bordered table-condensed">
+      	<tr>
+      	  <th width="50">次序</th>
+      	  <th width="50">字</th>
+      	  <th width="50">声母</th>
+          <th width="50">韵母</th>
+          <th width="50">声调</th>
+      	  <th>注释</th>
+      	</tr>
+      	{% for zi in zibiao.items %}
+      	<tr>
+          <td>{{zi.id}}</td>
+          <td><a href="{{ url_for('char', id=zi.id) }}">{{zi.zi}}</a></td>
+          <td><a href="{{ url_for('onset', id=zi.sheng_id) }}">{{zi.sheng}}</a></td>
+          <td><a href="{{ url_for('rhyme', id=zi.yun_id) }}">{{zi.yun}}</a></td>
+          <td>{{zi.diao[-1]}}</td>
+          <td>{{zi.merge}}</td>
+      	</tr>
+      	{% endfor %}
+      </table>
+      {% if zibiao.has_prev %}
+          <a href="{{ url_for('chars', page=zibiao.prev_num) }}">上一页</a>
+      {% else %}
+          上一页
+      {% endif %} |
+
+      {% if zibiao.has_next %}
+          <a href="{{ url_for('chars', page=zibiao.next_num) }}">下一页</a>
+      {% else %}
+          下一页
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block onsets_active %}active{% endblock %}
+{% block caption %}声纽{% endblock %}
+{% block content %}
+<div>
+  <h1>声纽</h1>
+  <div class="row">
+    <div class="span10">
+        <table class="table table-bordered table-condensed">
+      	<tr>
+      	  <!--<th width="50">声类</th>-->
+      	  <th width="50">声纽</th>
+          <th width="50">拟音</th>
+          <th >辖字</th>
+      	</tr>
+      	{% for sheng in shengmu %}
+      	<tr>
+          <!--<td>{{sheng.lei}}</td>-->
+          <td>
+            <a href="{{ url_for('onset', id=sheng.id) }}">{{sheng.zi}}</a>
+          </td>
+          <td>{{sheng.ni}}</td>
+          <td>
+            {% for zi in sheng_zi[sheng.zi] %}
+              <a href="{{ url_for('char', id=zi.id) }}">{{zi.zi}}</a>&nbsp;
+            {% endfor %}
+          </td>
+      	</tr>
+      	{% endfor %}
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

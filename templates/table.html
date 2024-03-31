@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block table_active %}active{% endblock %}
+{% block caption %}韵图{% endblock %}
+{% block content %}
+<div>
+  <h1>荆音韵汇韵图</h1>
+  <p>《荆音韵汇》的音节总表</p>
+  <div class="row row-horizon">
+    {{data | safe}}
+  </div>
+</div>
+
+{% endblock %}

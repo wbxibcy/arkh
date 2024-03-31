@@ -1,0 +1,312 @@
+{% extends "layout.html" %}
+{% block maps_active %}active{% endblock %}
+{% block caption %}地图{% endblock %}
+{% block content %}
+<div>
+  <h1>方言地图集</h1>
+  <link rel="stylesheet" href="http://openlayers.org/en/v3.18.2/css/ol.css" type="text/css">
+  <style>
+      .ol-zoom {
+        top: 52px;
+      }
+      .ol-toggle-options {
+        z-index: 1000;
+        background: rgba(255,255,255,0.4);
+        border-radius: 4px;
+        padding: 2px;
+        position: absolute;
+        left: 8px;
+        top: 8px;
+      }
+      .ol-toggle-options a {
+        background: rgba(0,60,136,0.5);
+        color: white;
+        display: block;
+        font-family: 'Lucida Grande',Verdana,Geneva,Lucida,Arial,Helvetica,sans-serif;
+        font-size: 19px;
+        font-weight: bold;
+        height: 22px;
+        line-height: 11px;
+        margin: 1px;
+        padding: 0;
+        text-align: center;
+        text-decoration: none;
+        width: 22px;
+        border-radius: 2px;
+      }
+      .ol-toggle-options a:hover {
+        color: #fff;
+        text-decoration: none;
+        background: rgba(0,60,136,0.7);
+      }
+      body {
+          font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+          font-size: small;
+      }
+      iframe {
+          width: 100%;
+          height: 250px;
+          border: none;
+      }
+      /* Toolbar styles */
+      #toolbar {
+          position: relative;
+          padding-bottom: 0.5em;
+      }
+      #toolbar ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+      }
+      #toolbar ul li {
+          float: left;
+          padding-right: 1em;
+          padding-bottom: 0.5em;
+      }
+      #toolbar ul li a {
+          font-weight: bold;
+          font-size: smaller;
+          vertical-align: middle;
+          color: black;
+          text-decoration: none;
+      }
+      #toolbar ul li a:hover {
+          text-decoration: underline;
+      }
+      #toolbar ul li * {
+          vertical-align: middle;
+      }
+      #map {
+          clear: both;
+          position: relative;
+          width: 768px;
+          height: 543px;
+          border: 1px solid black;
+      }
+      #wrapper {
+          width: 768px;
+      }
+      #location {
+          float: right;
+      }
+  </style>
+
+  <script src="http://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+  <script src="http://openlayers.org/en/v3.18.2/build/ol.js"></script>
+  <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+
+  <div id="map">
+    <div class="ol-toggle-options ol-unselectable"><a title="Toggle options toolbar" onClick="toggleControlPanel()" href="#toggle">...</a></div>
+  </div>
+  <div id="wrapper">
+      <div id="location"></div>
+      <div id="scale">
+  </div>
+
+ <div id="toolbar" style="display: none;">
+   <ul>
+     <li><span>标记</span>
+       <form id="layer1">    <!-- 注意编号为 1，同理改变以下 id = layer1* 编号-->
+         <label class="checkbox" for="visible1">
+           <input id="visible1" class="visible" type="checkbox"  />显示
+         </label>
+       </form>
+       <ul>
+         <li><span>山峰</span>
+           <form id="layer10">
+             <label class="checkbox" for="visible10">
+               <input id="visible10" class="visible" type="checkbox"  />显示
+             </label>
+           </form>
+         </li>
+         <li><span>村庄</span>
+           <form id="layer11">
+             <label class="checkbox" for="visible11">
+               <input id="visible11" class="visible" type="checkbox"   />显示
+             </label>
+           </form>
+         </li>
+       </ul>
+     </li>
+     <li><span>底图层</span>
+       <form id="layer0">    <!-- 注意编号为 0，同理改变以下 id = layer0* 编号-->
+         <label class="checkbox" for="visible0">
+           <input id="visible0" class="visible" type="checkbox"/>显示
+         </label>
+       </form>
+<!--           <ul>
+         <li><span>底图1</span>
+           <form id="layer00">
+             <label class="checkbox" for="visible00">
+               <input id="visible00" class="visible" type="checkbox"/>显示
+             </label>
+           </form>
+         </li>
+         <li><span>底图2</span>
+           <form id="layer01">
+             <label class="checkbox" for="visible01">
+               <input id="visible01" class="visible" type="checkbox"  />显示
+             </label>
+           </form>
+         </li>
+       </ul> -->
+     </li>
+   </ul>
+ </div>
+
+  <script>
+    var bounds = [119.61944911598187, 31.235340908615512,
+                  120.01288604938313, 31.513906988295005];
+
+    var mousePositionControl = new ol.control.MousePosition({
+      className: 'custom-mouse-position',
+      target: document.getElementById('location'),
+      coordinateFormat: ol.coordinate.createStringXY(5),
+      undefinedHTML: '&nbsp;'
+    });
+
+    // 宜兴底图集合
+    var YX_map_tiled = new ol.layer.Tile({
+      visible: true,
+      source: new ol.source.TileWMS({
+        url: 'http://104.236.155.228:8080/geoserver/wms',
+        params: {'FORMAT': 'image/png',
+                 'VERSION': '1.1.1',
+                 tiled: true,
+              STYLES: '',
+              LAYERS: 'YX_map',
+           tilesOrigin: 119.51755215697452 + "," + 31.097787880406393
+        }
+      })
+    });
+
+    // 山峰图层
+    var YX_Summit_tiled = new ol.layer.Tile({
+            visible: false,
+            source: new ol.source.TileWMS({
+              url: 'http://104.236.155.228:8080/geoserver/ling_shp/wms',
+              params: {'FORMAT': 'image/png',
+                       'VERSION': '1.1.1',
+                       tiled: true,
+                    STYLES: '',
+                    LAYERS: 'ling_shp:YX_Summit',
+                 tilesOrigin: 119.54934306802951 + "," + 31.101822221050202
+              }
+            })
+          });
+
+    // 村庄图层
+    var YX_Village_tiled = new ol.layer.Tile({
+      visible: false,
+      source: new ol.source.TileWMS({
+        url: 'http://104.236.155.228:8080/geoserver/ling_shp/wms',
+        params: {'FORMAT': 'image/png',
+                 'VERSION': '1.1.1',
+                 tiled: true,
+              STYLES: '',
+              LAYERS: 'ling_shp:YX_Village',
+           tilesOrigin: 119.5209541905586 + "," + 31.116002139799576
+        }
+      })
+    });
+
+    var projection = new ol.proj.Projection({
+        code: 'EPSG:4236',
+        units: 'degrees',
+        axisOrientation: 'neu'
+    });
+
+    var map = new ol.Map({
+      controls: ol.control.defaults({
+        attribution: false
+      }).extend([mousePositionControl]),
+      target: 'map',
+      layers: [
+        // 插入底图
+        new ol.layer.Group({
+          layers: [
+            YX_map_tiled
+          ]
+        }),
+        // 插入标记层
+        new ol.layer.Group({
+          layers: [
+            YX_Summit_tiled,
+            YX_Village_tiled
+          ]
+
+        }),
+      ],
+      view: new ol.View({
+         projection: projection
+      })
+    });
+
+
+    map.getView().on('change:resolution', function(evt) {
+      var resolution = evt.target.get('resolution');
+      var units = map.getView().getProjection().getUnits();
+      var dpi = 25.4 / 0.28;
+      var mpu = ol.proj.METERS_PER_UNIT[units];
+      var scale = resolution * mpu * 39.37 * dpi;
+      if (scale >= 9500 && scale <= 950000) {
+        scale = Math.round(scale / 1000) + "K";
+      } else if (scale >= 950000) {
+        scale = Math.round(scale / 1000000) + "M";
+      } else {
+        scale = Math.round(scale);
+      }
+      document.getElementById('scale').innerHTML = "Scale = 1 : " + scale;
+    });
+    map.getView().fit(bounds, map.getSize());
+    // map.getLayers().forEach(function(lyr) {
+    //   //lyr.getSource().updateParams({'FORMAT_OPTIONS': 'antialias:full'});
+    //   //lyr.getSource().updateParams({'STYLES': ''});
+    // });
+
+
+      // shows/hide the control panel
+    function toggleControlPanel(){
+      var toolbar = document.getElementById("toolbar");
+      if (toolbar.style.display == "none") {
+        toolbar.style.display = "block";
+      }
+      else {
+        toolbar.style.display = "none";
+      }
+      map.updateSize()
+    }
+
+    //  设置图层显示开关
+    function bindInputs(layerid, layer) {
+      var visibilityInput = $(layerid + ' input.visible');
+      visibilityInput.on('change', function() {
+        layer.setVisible(this.checked);
+      });
+      visibilityInput.prop('checked', layer.getVisible());
+
+      // var opacityInput = $(layerid + ' input.opacity');
+      // opacityInput.on('input change', function() {
+      //   layer.setOpacity(parseFloat(this.value));
+      // });
+      // opacityInput.val(String(layer.getOpacity()));
+    }
+
+    // 地图与开关联结
+    map.getLayers().forEach(function(layer, i) {
+      bindInputs('#layer' + i, layer);
+      if (layer instanceof ol.layer.Group) {
+        layer.getLayers().forEach(function(sublayer, j) {
+          bindInputs('#layer' + i + j, sublayer);
+        });
+      }
+    });
+
+    // 折叠图层显示开关选项
+    $('#toolbar li > span').click(function() {
+      $(this).siblings('form').toggle();
+    }).siblings('form').hide();
+
+  </script>
+</div>
+{% endblock %}

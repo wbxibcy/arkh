@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% block book_active %}active{% endblock %}
+{% block caption %}书影{% endblock %}
+{% block content %}
+<div>
+  <h1>书影</h1>
+  <div class="carousel-container">
+
+    <div id="carousel-generic" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#carousel-generic" data-slide-to="0" class="active"></li>
+        {% for i in range(1,10) %}
+        <li data-target="#carousel-generic" data-slide-to="{{ i }}"></li>
+        {% endfor %}
+      </ol>
+
+      <!-- Wrapper for slides -->
+      <div class="carousel-inner">
+        <div class="item active">
+          <img src="/static/img/page_52_53.png" alt="书影-1" />
+          <div class="carousel-caption">
+            <h2>书影-1</h2>
+          </div>
+        </div>
+        {% for i in range(1,10) %}
+        <div class="item">
+          {% set right = 52 + i %}
+          {% set left = 53 + i %}
+          {% set img_url = '/static/img/page_' + right|string + '_' + left|string + '.png' %}
+          <img src="{{ img_url }}" alt="书影-{{ i+1 }}" />
+          <div class="carousel-caption">
+            <h2>书影-{{ i+1 }}</h2>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- Controls -->
+      <a class="left carousel-control" href="#carousel-generic" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+      </a>
+      <a class="right carousel-control" href="#carousel-generic" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+      </a>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

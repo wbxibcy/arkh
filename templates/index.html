@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% block index_active %}active{% endblock %}
+{% block caption %}首页{% endblock %}
+{% block content %}
+<div>
+  <h1>荆音韵汇</h1>
+  <div class="row" style="font-size:120%;">
+    <div class="col-md-8">
+      <p class="indent text-justify">地方韵书是现在方言研究的热点之一。清乾隆末年，常州府荆溪县人周仁辑著<a href="#book">《荆音韵汇》</a>，记录了当时当地的语音、词汇样貌。周仁之侄周泳为免“递相传写，虚虎沿讹”，与诸兄弟详加校注并刊行此书。《荆音韵汇》的编辑体例是“依声合韵”，全书分二十四韵部，四十二声纽，其下各分四声。除了习见之字，本书对“有异义者”均有释义，释文基本参照《康熙字典》，实为帮助童蒙辨音、识字、应考的《康熙字典》简编，也可说是《康熙字典》的方音索引。
+    此书收字 9688 个，是系统且细腻反映十八世纪荆溪方言的珍贵文献，从中能看出该地方言与平水韵音系的雅音有何异同，就是一张十八世纪荆溪方言的同音字表，书中收录了较多方言词语，是研究方言史、吴语史的宝贵材料。
+    此书流传版本不多，藏书沉眠库房，鲜人问津。</p>
+      <p class="indent text-justify">本站将《荆音韵汇》全文收录，以字表形式制成数据库。字头次序遵循原书次第，音系构拟反映作者的最新研究成果。数据库提供检索接口，方便读者“翻查诸声”。此外，方言地图展示了作者田野调查的部分结果，相信对读者参比古今颇有裨益。</p>
+    </div>
+    <div class="col-md-2" style="text-align:center">
+        <img stype="display:block; width:200px;" src="static/img/page_53_54.png" />
+    </div>
+  </div>
+  <br />
+  <h1 class="text-left"><small>道光壬午仲冬刊</small></h1>
+  <h1 class="text-center"><a name="book" class="nocolor">荊音韻彙</a></h1>
+  <h1 class="text-right"><small>斯美堂藏版</small></h1>
+  <h2>序</h2>
+  <p class="text-justify">世俗兒童四聲多誤。先伯父手輯是編，以授<small>泳</small>等。不獨四聲有標準，即生僻之字，亦易檢獲。三十年來藏之巾箱，手澤宛在，然恐遞相傳寫，虛虎沿訛，因屬學毅、耿卿、邦華諸弟詳加讐校，并略附注釋，考辨點畫，附之剞劂，以省抄謄，為家塾定本。俾子弟從事於此者，時時展閱，庶不致弄麞伏獵，貽笑士林也，峕道光二年歲次壬午孟冬，姪<small>泳</small>謹識。</p>
+  <h2>凡例</h2>
+  <p class="text-justify">查字法，他書俱按部檢字，按字檢聲。是編獨依聲合韻，歸韻尋字。非敢立異，聊以便蒙。</p>
+  <p class="text-justify">分韻，以“音隨泉更，何法畫一，翻查諸聲，要宜諧俗，從吾方言，求而各得”二十四字編二十四韻。上去二聲。各次于平聲之下。如有平而無上，則平聲下作一・，然後次以去聲。有平而無上去，則連用兩・。有上去而無平，則先用一・，而後次以上去。</p>
+  <p class="text-justify">“音隨泉更”等字分韻。而各韻“以共合呆亨按果康，求諧宜曉一荊腔。但能來諦聽，傳授勝征倡。濁在先之請，排明編配無方。狂懷頑況宛光匡。”四十二字為切。韻列于邊，切標於上。如“音”字韻，以“求”字切之，則“求音”為“勤”，以“諧”字切之，則“諧音”為“形”，餘可類推。</p>
+  <p class="text-justify">方言各邑互殊，是編專為諧俗而作，而仍註《佩文》諸韻于各字下。俗音與雅音迥不相侔者，則註雅音讀作某以別之，不以俗音誤雅音也。</p>
+  <p class="text-justify">點畫悉遵《字典》，偽體俗書悉加辨正。其疑似易混者，各為註明。</p>
+  <p class="text-justify">習見之字，無庸詮釋。其有異義者，特為註明，餘悉從略。</p>
+  <h2>荊音韻彙目錄</h2>
+  <h3>卷上</h3>
+  <ul class="entries">
+    {% for yun in yunbu[:11] %}
+      <li>{{yun[0]}}<a href="{{ url_for('chars', page=yun[2]/10+1) }}">{{yun[1]}}</a></li>
+    {% endfor %}
+  </ul>
+  <h3>卷下</h3>
+  <ul class="entries">
+    {% for yun in yunbu[12:] %}
+      <li>{{yun[0]}}<a href="{{ url_for('chars', page=yun[2]/10+1) }}">{{yun[1]}}</a></li>
+    {% endfor %}
+  </ul>
+  <br />
+  <p>荊谿周仁<small>宗少</small>輯</p>
+  <p>姪泳<small>仲珩</small>校刊</p>
+  <p>從姪光覲鳴鷟邦華仝註</p>
+</div>
+{% endblock %}

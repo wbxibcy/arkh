@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block onsets_active %}active{% endblock %}
+{% block caption %}{{sheng.zi}} - 声纽{% endblock %}
+{% block content %}
+<div>
+  <h1>{{sheng.zi}}</h1>
+  <p></p>
+
+  <div class="row">
+    <div class="span4">
+      <table class="table table-bordered">
+        <!--
+      	<tr>
+      	  <td width="100"><strong>声类</strong></td>
+      	  <td>{{sheng.lei}}</td>
+      	</tr>
+        -->
+      	<tr>
+      	  <td width="100"><strong>声纽</strong></td>
+      	  <td>{{sheng.zi}}</td>
+      	</tr>
+        <tr>
+      	  <td width="100"><strong>拟音</strong></td>
+      	  <td>{{sheng.ni}}</td>
+      	</tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block chars_active %}active{% endblock %}
+{% block caption %}{{zi.zi}} - 字{% endblock %}
+{% block content %}
+<div>
+  <h1>{{zi.zi}}</h1>
+  <p></p>
+
+  <div class="row">
+    <div class="span4">
+      <table class="table table-bordered">
+      	<tr>
+      	  <td width="100"><strong>声母</strong></td>
+      	  <td>{{zi.sheng}}</td>
+      	</tr>
+      	<tr>
+      	  <td width="100"><strong>韵母</strong></td>
+      	  <td>{{zi.yun}}</td>
+      	</tr>
+        <tr>
+      	  <td width="100"><strong>声调</strong></td>
+      	  <td>{{zi.diao}}</td>
+      	</tr>
+        {% if zi.ya %}
+      	<tr>
+      	  <td width="1-0"><strong>雅韵</strong></td>
+      	  <td>{{zi.ya}}</td>
+      	</tr>
+        {% endif %}
+      </table>
+    </div>
+  </div>
+</div>
+{% if zi.zhu %}
+<blockquote>{{zi.zhu}}</blockquote>
+{% endif %}
+{% endblock %}

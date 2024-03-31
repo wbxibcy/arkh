@@ -1,0 +1,47 @@
+<div class="pagination">
+  <ul>
+    {% if list.has_previous %}
+      <li>
+        <a href="?{{list.args_previous}}">上一䈎</a>
+      </li>
+      <li>
+        <a href="?{{list.args_first}}">1</a>
+      </li>
+    {% else %}
+      {# 第一 #}
+      <li class="disabled">
+        <a href="">上一䈎</a>
+      </li>
+      <li class="active">
+        <a href="">1</a>
+      </li>
+    {% endif %}
+    {% if list.number <= 2 %}
+      {% if list.number = 2 %}
+        <li class="active">
+          <a href="?{{list.args_second}}">2</a>
+        </li>
+      {% endif %}
+    {% else %}
+      <li class="disabled"><a href="">...</a></li>
+      <li class="active">
+        <a href="?{{list.args_current}}">{{list.number}}</a>
+      </li>
+    {% endif %}
+    {% if list.number|add:1 < list.paginator.num_pages %}
+      <li class="disabled"><a href="">...</a></li>
+    {% endif %}
+    {% if list.has_next %}
+      <li>
+        <a href="?{{list.args_last}}">{{list.paginator.num_pages}}</a>
+      </li>
+      <li>
+        <a href="?{{list.args_next}}">下一䈎</a>
+      </li>
+    {% else %}
+      <li class="disabled">
+        <a href="">下一䈎</a>
+      </li>
+    {% endif %}
+  </ul>
+</div>

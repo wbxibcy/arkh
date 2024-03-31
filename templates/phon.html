@@ -1,0 +1,324 @@
+{% extends "layout.html" %}
+{% block phon_active %}active{% endblock %}
+{% block caption %}音系{% endblock %}
+{% block content %}
+<div>
+  <h1>荆音韵汇音系</h1>
+  <p>拟音和记音符号用<a href="https://www.internationalphoneticassociation.org/content/full-ipa-chart">国际音标</a>表示</p>
+
+  <h2>声纽拟音</h2>
+  <p><a href="{{ url_for('onsets') }}">声纽汇字</a></p>
+  <table id="shengniu">
+    <tr>
+      <th class="jyth">《荆音韵汇》声纽</th>
+      <th class="jyth">拟音</th>
+    </tr>
+    {% for idx in sh_seq %}
+      {% if idx is iterable %}
+      <tr>
+        <td>
+          {% for i in range(idx|length) %}
+          <a href="{{ url_for('onset', id=sheng[idx[i]].id) }}">{{ sheng[idx[i]].zi }}</a>
+          {% endfor %}
+        </td>
+        <td>
+          {% for i in range(idx|length) %}
+          {{ sheng[idx[i]].ni }}
+          {% endfor %}
+        </td>
+      </tr>
+      {% else %}
+      <tr>
+        <td><a href="{{ url_for('onset', id=sheng[idx].id) }}">{{ sheng[idx].zi }}</a></td>
+        <td>{{ sheng[idx].ni }}</td>
+      </tr>
+      {% endif %}
+    {% endfor %}
+  </table>
+
+  <h2>韵部拟音</h2>
+  <p><a href="{{ url_for('rhymes') }}">韵部汇字</a></p>
+  <table id="yunbu">
+  <tr>
+    <th rowspan="2" class="jyth">《荆音韵汇》韵部</th>
+    <th rowspan="2" class="jyth_half">丁蜀音<sup><a href="#note">*</a></sup></th>
+    <th colspan="4">拟音</th>
+    <th rowspan="2">中古音</th>
+  </tr>
+  <tr>
+    <td class="jyth_half">开</td>
+    <td class="jyth_half">齐</td>
+    <td class="jyth_half">合</td>
+    <td class="jyth_half">撮</td>
+  </tr>
+  <tr>
+    <td rowspan="3">而部<br />(<a href="{{ url_for('rhyme', id=yun[21].id) }}">{{ yun[21].zi }}</a>
+      <a href="{{ url_for('rhyme', id=yun[22].id) }}">{{ yun[22].zi }}</a>
+      <a href="{{ url_for('rhyme', id=yun[23].id) }}">{{ yun[23].zi }}</a>)</td>
+    <td rowspan="2">ɿ<br></td>
+    <td>*ɿ</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td rowspan="3">止摄开口三等、蟹摄开口三等齿音字</td>
+  </tr>
+  <tr>
+    <td>*ʅ</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>ɚ</td>
+    <td>*l̩</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><a href="{{ url_for('rhyme', id=yun[13].id) }}">{{ yun[13].zi }}</a>部</td>
+    <td>i<sup><small>ʑ</small></sup><br></td>
+    <td></td>
+    <td>*i</td>
+    <td></td>
+    <td></td>
+    <td>蟹摄开口三四等，止摄开口，止合三微、蟹合三废（非组）</td>
+  </tr>
+  <tr>
+    <td><a href="{{ url_for('rhyme', id=yun[17].id) }}">{{ yun[17].zi }}</a>部</td>
+    <td>u<sup><small>β</small></sup></td>
+    <td></td>
+    <td></td>
+    <td>*u</td>
+    <td></td>
+    <td>鱼韵庄组字，虞韵庄组非组字，尤韵非组</td>
+  </tr>
+  <tr>
+    <td><a href="{{ url_for('rhyme', id=yun[10].id) }}">{{ yun[10].zi }}</a>部</td>
+    <td>y<sup><small>ʮ</small></sup></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>*y</td>
+    <td>遇摄三等鱼虞韵，蟹止摄合口字（少量）</td>
+  </tr>
+  <tr>
+    <td><a href="{{ url_for('rhyme', id=yun[14].id) }}">{{ yun[14].zi }}</a>部</td>
+    <td rowspan="2">ᴀ</td>
+    <td>*ᴀ</td>
+    <td>*iᴀ</td>
+    <td>*uᴀ</td>
+    <td></td>
+    <td>蟹开二，麻开三（部分字），泰韵（除帮见系）</td>
+  </tr>
+  <tr>
+    <td><a href="{{ url_for('rhyme', id=yun[8].id) }}">{{ yun[8].zi }}</a>部</td>
+    <td>*æ</td>
+    <td></td>
+    <td>*uæ</td>
+    <td></td>
+    <td>咸开二、山开二帮庄组，咸开一谈韵、山开一寒韵端精组</td>
+  </tr>
+  <tr>
+    <td><a href="{{ url_for('rhyme', id=yun[2].id) }}">{{ yun[2].zi }}</a>部</td>
+    <td>ᴇ</td>
+    <td>*ᴇ</td>
+    <td></td>
+    <td>*uᴇ</td>
+    <td>*yᴇ</td>
+    <td>咸、山摄阳声韵一等，三等（部分字）</td>
+  </tr>
+  <tr>
+    <td><a href="{{ url_for('rhyme', id=yun[9].id) }}">{{ yun[9].zi }}</a>部</td>
+    <td>o</td>
+    <td>*o</td>
+    <td>*io</td>
+    <td>*uo</td>
+    <td></td>
+    <td>假摄、佳韵（少量）</td>
+  </tr>
+  <tr>
+    <td><a href="{{ url_for('rhyme', id=yun[4].id) }}">{{ yun[4].zi }}</a>部</td>
+    <td>ʊ</td>
+    <td>*ʊ</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>果摄一等、遇摄三等</td>
+  </tr>
+  <tr>
+    <td><a href="{{ url_for('rhyme', id=yun[1].id) }}">{{ yun[1].zi }}</a>部</td>
+    <td>ɐi</td>
+    <td>*ɐi</td>
+    <td></td>
+    <td>*uɐi</td>
+    <td></td>
+    <td>蟹开一，蟹合一，蟹合三，蟹合四，止合三</td>
+  </tr>
+  <tr>
+    <td><a href="{{ url_for('rhyme', id=yun[12].id) }}">{{ yun[12].zi }}</a>部</td>
+    <td>ɐɯ</td>
+    <td>*ɐɯ</td>
+    <td>*iɐɯ</td>
+    <td></td>
+    <td></td>
+    <td>效摄</td>
+  </tr>
+  <tr>
+    <td><a href="{{ url_for('rhyme', id=yun[20].id) }}">{{ yun[20].zi }}</a>部</td>
+    <td>ɤɯ</td>
+    <td>*ɤɯ</td>
+    <td>*iɤɯ</td>
+    <td></td>
+    <td></td>
+    <td>流摄</td>
+  </tr>
+  <tr>
+    <td><a href="{{ url_for('rhyme', id=yun[19].id) }}">{{ yun[19].zi }}</a>部</td>
+    <td>iɪ</td>
+    <td></td>
+    <td>*ie</td>
+    <td></td>
+    <td></td>
+    <td>咸、山摄二四等，三等（部分字），假开三（少量）</td>
+  </tr>
+  <tr>
+    <td><a href="{{ url_for('rhyme', id=yun[3].id) }}">{{ yun[3].zi }}</a>部</td>
+    <td rowspan="2">ᴀŋ</td>
+    <td>*aŋ</td>
+    <td></td>
+    <td>*uaŋ</td>
+    <td></td>
+    <td>梗摄二等（白读）</td>
+  </tr>
+  <tr>
+    <td><a href="{{ url_for('rhyme', id=yun[18].id) }}">{{ yun[18].zi }}</a>部</td>
+    <td>*ɑŋ</td>
+    <td>*iɑŋ</td>
+    <td>*uɑŋ</td>
+    <td></td>
+    <td>宕、江摄阳声韵</td>
+  </tr>
+  <tr>
+    <td><a href="{{ url_for('rhyme', id=yun[16].id) }}">{{ yun[16].zi }}</a>部</td>
+    <td>oŋ</td>
+    <td>*oŋ</td>
+    <td>*ioŋ</td>
+    <td></td>
+    <td></td>
+    <td>通摄阳声韵，梗摄合口三四等见系字</td>
+  </tr>
+  <tr>
+    <td><a href="{{ url_for('rhyme', id=yun[11].id) }}">{{ yun[11].zi }}</a>部</td>
+    <td>ən</td>
+    <td>*ən</td>
+    <td></td>
+    <td>*uən</td>
+    <td>*yən</td>
+    <td>臻、深、梗、曾摄阳声韵，梗摄二等阳声韵（文读）</td>
+  </tr>
+  <tr>
+    <td><a href="{{ url_for('rhyme', id=yun[0].id) }}">{{ yun[0].zi }}</a>部</td>
+    <td>in</td>
+    <td></td>
+    <td>*in</td>
+    <td></td>
+    <td></td>
+    <td>臻、深、曾摄开口三等，梗摄开口三四等，梗摄开口二等见系字</td>
+  </tr>
+  <tr>
+    <td><a href="{{ url_for('rhyme', id=yun[5].id) }}">{{ yun[5].zi }}</a>部</td>
+    <td rowspan="2">ᴀʔ</td>
+    <td>*aʔ</td>
+    <td></td>
+    <td>*uaʔ</td>
+    <td>*yaʔ</td>
+    <td>咸、山一二等入声韵，山摄合口三四等字（若干）</td>
+  </tr>
+  <tr>
+    <td><a href="{{ url_for('rhyme', id=yun[6].id) }}">{{ yun[6].zi }}</a>部</td>
+    <td>*ɑʔ</td>
+    <td>*iɑʔ</td>
+    <td>*uɑʔ</td>
+    <td></td>
+    <td>咸、山摄开口三四等入声韵，咸山摄开口二等（见系字），梗摄入声韵</td>
+  </tr>
+  <tr>
+    <td><a href="{{ url_for('rhyme', id=yun[25].id) }}">{{ yun[25].zi }}</a>部</td>
+    <td>əʔ</td>
+    <td>*əʔ</td>
+    <td>*iəʔ</td>
+    <td>*uəʔ</td>
+    <td>*yəʔ</td>
+    <td>臻摄合口入声韵，质韵知庄章组字，曾摄一等入声韵，曾开三职韵知庄章组字，梗开二麦韵，山摄一等，山摄合口三四等，山开三薛韵知庄章组字，深开三缉韵知庄章组字，咸开一入声韵，咸开三叶韵知庄章组字</td>
+  </tr>
+  <tr>
+    <td><a href="{{ url_for('rhyme', id=yun[15].id) }}">{{ yun[15].zi }}</a>部</td>
+    <td rowspan="2">oʔ</td>
+    <td>*oʔ</td>
+    <td>*ioʔ</td>
+    <td></td>
+    <td></td>
+    <td>通摄入声韵，江开二入声韵，宕摄唇音入声字，曾合三入声韵</td>
+  </tr>
+  <tr>
+    <td><a href="{{ url_for('rhyme', id=yun[24].id) }}">{{ yun[24].zi }}</a>部</td>
+    <td>*ɔʔ</td>
+    <td>*iɔʔ</td>
+    <td>*uɔʔ</td>
+    <td></td>
+    <td>宕、江摄入声韵</td>
+  </tr>
+  <tr>
+    <td><a href="{{ url_for('rhyme', id=yun[7].id) }}">{{ yun[7].zi }}</a>部</td>
+    <td>ieʔ<br></td>
+    <td></td>
+    <td>*ieʔ</td>
+    <td></td>
+    <td></td>
+    <td>臻、宕、深、曾摄开口三等，梗、山摄三四等入声韵</td>
+  </tr>
+</table>
+  <p><a name="note" class="nocolor">*</a>此处只给出丁蜀音开口呼字的韵母读音</p>
+
+  <h2>声调拟值</h2>
+  <table id="shengdiao">
+  <tr>
+    <th colspan="2">平</th>
+    <th colspan="2">上</th>
+    <th colspan="2">去</th>
+    <th colspan="2">入</th>
+  </tr>
+  <tr>
+    <td class="jyth_half">清平</td>
+    <td class="jyth_half">44</td>
+    <td class="jyth_half">清上</td>
+    <td class="jyth_half">53</td>
+    <td class="jyth_half">清去</td>
+    <td class="jyth_half">412</td>
+    <td class="jyth_half">清入</td>
+    <td class="jyth_half"><span class="cu">44</span></td>
+  </tr>
+  <tr>
+    <td rowspan="3">浊平</td>
+    <td rowspan="3">213</td>
+    <td>次浊上<sub>文</sub></td>
+    <td>44</td>
+    <td rowspan="3">浊去</td>
+    <td rowspan="3">31</td>
+    <td rowspan="3">浊入</td>
+    <td rowspan="3"><span class="cu">23</span></td>
+  </tr>
+  <tr>
+    <td>次浊上<sub>白</sub></td>
+    <td rowspan="2">24</td>
+  </tr>
+  <tr>
+    <td>全浊上</td>
+  </tr>
+</table>
+<br />
+<p>《荆音韵汇》<a href="{{ url_for('table') }}">韵图</a></p>
+</div>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block rhymes_active %}active{% endblock %}
+{% block caption %}{{yun.zi}} - 韵部{% endblock %}
+{% block content %}
+<div>
+  <h1>{{yun.zi}}</h1>
+  <p></p>
+
+  <div class="row">
+    <div class="span4">
+      <table class="table table-bordered">
+        <!--
+        <tr>
+      	  <td width="100"><strong>韵类</strong></td>
+      	  <td>{{yun.lei}}</td>
+      	</tr>
+        -->
+      	<tr>
+      	  <td width="100"><strong>韵部</strong></td>
+      	  <td>{{yun.zi}}</td>
+      	</tr>
+        <tr>
+      	  <td width="100"><strong>拟音</strong></td>
+      	  <td>{{yun.ni}}</td>
+      	</tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

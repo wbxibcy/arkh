@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% block query_active %}active{% endblock %}
+{% block caption %}查询{% endblock %}
+{% block content %}
+<div>
+  <h1>荆音韵汇在线查询</h1>
+  <p>在这里，沟通古今</p>
+  <form class="form-horizontal" method="POST" action="{{ url_for('query') }}">
+    <fieldset>
+      <div class="control-group">
+        <label class="control-label" for="zi">查询汉字</label>
+        <div class="controls">
+          <input type="text" class="input-xlarge" id="zi" name="zi">
+          <p class="help-block">输入汉字查询</p>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">选择韵书</label>
+        <div class="controls">
+          <label class="checkbox inline">
+            <input type="checkbox" name="yx" value="1" {% if session.pop('yx_chk', True) %}checked{% endif %}>
+            荆音韵汇
+          </label>
+{#          <label class="checkbox inline">#}
+{#            <input type="checkbox" name="mc" value="2" {% if session.pop('mc_chk', True) %}checked{% endif %}>#}
+{#            广韵#}
+{#          </label>#}
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">查询</button>
+      </div>
+    </fieldset>
+  </form>
+  <div>
+  {% for result in session.pop('results', []) %}
+    <!-- books -->
+    <h2>来自{{ result[0] }}的结果</h2>
+    {% for entry in result[1] %}
+      <!-- char -->
+      <h3>{{ entry[0][1] }}</h3>
+      {% for item in entry[1:] %}
+        <p><strong>{{ item[0] }}</strong> {{ item[1] }}</p>
+      {% endfor %}
+
+    {% endfor %}
+  {% endfor %}
+  </div>
+</div>
+{% endblock %}
